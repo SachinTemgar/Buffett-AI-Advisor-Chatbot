@@ -8,17 +8,13 @@ def get_stock_financials(ticker):
     Returns: dict with income_statement, balance_sheet, cash_flow
     """
     try:
-        # Create session with User-Agent header (fixes Streamlit Cloud blocking)
         session = requests.Session()
         session.headers.update({
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
         })
         
-        # Create ticker with custom session
         stock = yf.Ticker(ticker, session=session)
         
-        # Force fetching data to ensure it exists
-        # Note: yfinance loads lazily, accessing properties triggers the download
         income = stock.financials
         balance = stock.balancesheet
         cashflow = stock.cashflow
@@ -44,7 +40,6 @@ def get_stock_financials(ticker):
 def get_company_info(ticker):
     """Get basic company information including LIVE PRICE"""
     try:
-        # Create session with User-Agent header
         session = requests.Session()
         session.headers.update({
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
@@ -53,7 +48,6 @@ def get_company_info(ticker):
         stock = yf.Ticker(ticker, session=session)
         info = stock.info
         
-        # Try different keys because Yahoo Finance API varies sometimes
         current_price = info.get('currentPrice') or info.get('regularMarketPrice') or info.get('previousClose')
         
         return {
