@@ -356,7 +356,7 @@ with stock_tab:
 
 # TAB 2: CUSTOM MODEL CHATBOT
 with custom_chat_tab:
-    st.markdown("## 🎩 Custom Transformer Chat")
+    st.markdown("## Custom Transformer Chat")
     st.caption("18M parameter transformer trained from scratch on Buffett's letters & Q&A")
 
     if not st.session_state.custom_loaded:
@@ -414,7 +414,7 @@ with custom_chat_tab:
 # TAB 3: LLAMA CHATBOT
 
 with llama_chat_tab:
-    st.markdown("## 🦙 Llama 3.1 Chat (via Groq)")
+    st.markdown("## Llama 3.1 Chat (via Groq)")
     st.caption("Meta's 8B parameter model with Buffett persona, served via Groq")
 
     if not st.session_state.llama_loaded:
