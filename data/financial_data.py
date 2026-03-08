@@ -1,107 +1,88 @@
 import yfinance as yf
 import pandas as pd
-import requests
-from requests.adapters import HTTPAdapter
-from requests.packages.urllib3.util.retry import Retry
-import time
+import pickle
+import os
 
-def create_robust_session():
-    """Create a session with retry logic and proper headers"""
-    session = requests.Session()
-    
-    # Add comprehensive headers
-    session.headers.update({
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
-        'Accept-Language': 'en-US,en;q=0.5',
-        'Accept-Encoding': 'gzip, deflate, br',
-        'DNT': '1',
-        'Connection': 'keep-alive',
-        'Upgrade-Insecure-Requests': '1',
-        'Sec-Fetch-Dest': 'document',
-        'Sec-Fetch-Mode': 'navigate',
-        'Sec-Fetch-Site': 'none',
-        'Cache-Control': 'max-age=0',
-    })
-    
-    # Add retry strategy
-    retry_strategy = Retry(
-        total=5,
-        backoff_factor=2,
-        status_forcelist=[429, 500, 502, 503, 504],
-        allowed_methods=["HEAD", "GET", "OPTIONS"]
-    )
-    
-    adapter = HTTPAdapter(max_retries=retry_strategy)
-    session.mount("http://", adapter)
-    session.mount("https://", adapter)
-    
-    return session
+# Path to cached data
+CACHE_PATH = os.path.join('data', 'demo_cache', 'stock_data.pkl')
+
+def load_cached_data():
+    """Load pre-downloaded stock data"""
+    try:
+        if os.path.exists(CACHE_PATH):
+            with open(CACHE_PATH, 'rb') as f:
+                return pickle.load(f)
+    except Exception as e:
+        print(f"Cache load error: {e}")
+    return {}
+
+# Load cached data once at startup
+_CACHED_STOCKS = load_cached_data()
 
 def get_stock_financials(ticker):
     """
     Fetch all three financial statements for a given ticker.
     Returns: dict with income_statement, balance_sheet, cash_flow
     """
-    max_attempts = 3
+    # Try cached data first (silently)
+    if ticker in _CACHED_STOCKS:
+        cached = _CACHED_STOCKS[ticker]
+        
+        # Convert back to DataFrames
+        return {
+            'ticker': ticker,
+            'info': cached['info'],
+            'income_statement': pd.DataFrame(cached['financials']),
+            'balance_sheet': pd.DataFrame(cached['balancesheet']),
+            'cash_flow': pd.DataFrame(cached['cashflow']),
+            'success': True
+        }
     
-    for attempt in range(max_attempts):
-        try:
-            # Create robust session
-            session = create_robust_session()
-            
-            # Create ticker with session
-            stock = yf.Ticker(ticker, session=session)
-            
-            # Add small delay to avoid rate limiting
-            if attempt > 0:
-                time.sleep(3)
-            
-            # Fetch data
-            income = stock.financials
-            balance = stock.balancesheet
-            cashflow = stock.cashflow
-            
-            # Verify data
-            if income is None or income.empty:
-                if attempt < max_attempts - 1:
-                    time.sleep(3)
-                    continue
-                return {
-                    'success': False,
-                    'error': f"No financial data available for {ticker}"
-                }
-            
-            return {
-                'ticker': ticker,
-                'info': stock.info,
-                'income_statement': income,
-                'balance_sheet': balance,
-                'cash_flow': cashflow,
-                'success': True
-            }
-            
-        except Exception as e:
-            if attempt < max_attempts - 1:
-                time.sleep(3)
-                continue
-            return {
-                'ticker': ticker,
-                'success': False,
-                'error': f"Error: {str(e)}"
-            }
-    
-    return {
-        'ticker': ticker,
-        'success': False,
-        'error': "Failed after multiple attempts. Please try again later."
-    }
+    # If not in cache, try live yfinance (will likely fail on cloud, but works locally)
+    try:
+        stock = yf.Ticker(ticker)
+        
+        income = stock.financials
+        balance = stock.balancesheet
+        cashflow = stock.cashflow
+        
+        if income.empty:
+            return {'success': False, 'error': "No financial data found"}
+
+        return {
+            'ticker': ticker,
+            'info': stock.info,
+            'income_statement': income,
+            'balance_sheet': balance,
+            'cash_flow': cashflow,
+            'success': True
+        }
+    except Exception as e:
+        return {
+            'ticker': ticker,
+            'success': False,
+            'error': str(e)
+        }
 
 def get_company_info(ticker):
     """Get basic company information including LIVE PRICE"""
+    # Try cache first (silently)
+    if ticker in _CACHED_STOCKS:
+        info = _CACHED_STOCKS[ticker]['info']
+        current_price = info.get('currentPrice') or info.get('regularMarketPrice') or info.get('previousClose')
+        
+        return {
+            'name': info.get('longName', ticker),
+            'sector': info.get('sector', 'N/A'),
+            'industry': info.get('industry', 'N/A'),
+            'market_cap': info.get('marketCap', 'N/A'),
+            'summary': info.get('longBusinessSummary', 'No summary available.'),
+            'current_price': current_price
+        }
+    
+    # Fallback to live yfinance
     try:
-        session = create_robust_session()
-        stock = yf.Ticker(ticker, session=session)
+        stock = yf.Ticker(ticker)
         info = stock.info
         
         current_price = info.get('currentPrice') or info.get('regularMarketPrice') or info.get('previousClose')
@@ -114,11 +95,11 @@ def get_company_info(ticker):
             'summary': info.get('longBusinessSummary', 'No summary available.'),
             'current_price': current_price
         }
-    except Exception as e:
+    except:
         return {
-            'name': ticker,
-            'sector': 'N/A',
-            'industry': 'N/A',
+            'name': ticker, 
+            'sector': 'N/A', 
+            'industry': 'N/A', 
             'market_cap': 'N/A',
             'summary': 'N/A',
             'current_price': 'N/A'
