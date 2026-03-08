@@ -1,0 +1,24 @@
+# Web Framework
+streamlit>=1.29.0
+
+# Data Processing
+pandas>=2.1.3
+numpy>=1.26.2
+
+# Financial Data
+yfinance>=0.2.32
+
+# Visualization
+plotly>=5.18.0
+
+# AI/NLP (if using Groq)
+groq>=0.4.0
+
+# RAG Components (if using Part 1 with RAG)
+sentence-transformers>=2.2.2
+faiss-cpu>=1.7.4
+torch>=2.1.0
+transformers>=4.35.0
+
+# Utilities
+python-dateutil>=2.8.2
