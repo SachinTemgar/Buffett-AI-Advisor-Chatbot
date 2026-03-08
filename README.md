@@ -252,10 +252,3 @@ Key resources used during development:
 - PyTorch documentation for transformer implementation
 - Streamlit deployment guides
 
-## Contact
-
-For questions or collaboration opportunities, feel free to reach out through GitHub issues or connect on LinkedIn.
-
-## License
-
-This project is for educational purposes. The custom model and code are original work. Warren Buffett's letters and investment philosophy are used under fair use for educational purposes.
