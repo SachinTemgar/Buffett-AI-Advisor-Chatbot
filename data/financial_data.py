@@ -1,5 +1,6 @@
 import yfinance as yf
 import pandas as pd
+import requests
 
 def get_stock_financials(ticker):
     """
@@ -7,7 +8,14 @@ def get_stock_financials(ticker):
     Returns: dict with income_statement, balance_sheet, cash_flow
     """
     try:
-        stock = yf.Ticker(ticker)
+        # Create session with User-Agent header (fixes Streamlit Cloud blocking)
+        session = requests.Session()
+        session.headers.update({
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+        })
+        
+        # Create ticker with custom session
+        stock = yf.Ticker(ticker, session=session)
         
         # Force fetching data to ensure it exists
         # Note: yfinance loads lazily, accessing properties triggers the download
@@ -17,7 +25,7 @@ def get_stock_financials(ticker):
         
         if income.empty:
             return {'success': False, 'error': "No financial data found"}
-
+        
         return {
             'ticker': ticker,
             'info': stock.info,
@@ -36,7 +44,13 @@ def get_stock_financials(ticker):
 def get_company_info(ticker):
     """Get basic company information including LIVE PRICE"""
     try:
-        stock = yf.Ticker(ticker)
+        # Create session with User-Agent header
+        session = requests.Session()
+        session.headers.update({
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+        })
+        
+        stock = yf.Ticker(ticker, session=session)
         info = stock.info
         
         # Try different keys because Yahoo Finance API varies sometimes
@@ -48,7 +62,7 @@ def get_company_info(ticker):
             'industry': info.get('industry', 'N/A'),
             'market_cap': info.get('marketCap', 'N/A'),
             'summary': info.get('longBusinessSummary', 'No summary available.'),
-            'current_price': current_price # <--- NEW FIELD ADDED
+            'current_price': current_price
         }
     except:
         return {
