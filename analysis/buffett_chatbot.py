@@ -331,8 +331,8 @@ class BuffettChatbot:
     
             st.success("Model downloaded successfully!")
 
-self.model_path = model_path
-self.tokenizer_path = tokenizer_path
+            self.model_path = model_path
+            self.tokenizer_path = tokenizer_path
     
     def load_model(self):
         """Load the trained model and tokenizer"""
