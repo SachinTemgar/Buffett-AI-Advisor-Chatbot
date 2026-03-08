@@ -15,6 +15,21 @@ from analysis.llama_advisor import LlamaAdvisor
 
 st.set_page_config(page_title="Buffett Quantitative Analyzer", layout="wide", page_icon="🏛️", initial_sidebar_state="expanded")
 
+st.markdown("""
+    <div style='background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 50%, #3b82f6 100%); 
+                padding: 2.5rem 2rem; border-radius: 12px; margin-bottom: 2rem; 
+                box-shadow: 0 4px 6px rgba(0,0,0,0.1); text-align: center;'>
+        <h1 style='color: white; margin: 0; font-size: 2.5rem; font-weight: 800;'>
+            💼 Warren Buffett AI Investment Advisor
+        </h1>
+        <p style='color: rgba(255,255,255,0.9); margin-top: 0.8rem; font-size: 1.1rem; margin-bottom: 0;'>
+            Comprehensive Stock Analysis • Custom Transformer Model • AI-Powered Insights
+        </p>
+        <p style='color: rgba(255,255,255,0.7); margin-top: 0.5rem; font-size: 0.9rem;'>
+            🎯 Evaluate companies using Buffett's 15 key financial criteria
+        </p>
+    </div>
+    """, unsafe_allow_html=True)
 # CSS STYLING
 st.markdown("""
 <style>
