@@ -300,13 +300,11 @@ class BuffettChatbot:
         self.tokenizer = None
         self.is_loaded = False
         
-        # =====================================================================
-        # MODEL PATHS - Update these to match your file locations
-        # =====================================================================
+        # MODEL PATHS 
         if model_path is None:
-            model_path = '/Users/sachintemgar/Downloads/GEN AI project/checkpoints_v4/best_model.pt'
+            model_path = os.path.join('checkpoints_v4', 'best_model.pt')
         if tokenizer_path is None:
-            tokenizer_path = '/Users/sachintemgar/Downloads/GEN AI project/checkpoints_v4/tokenizer.json'
+            tokenizer_path = os.path.join('checkpoints_v4', 'tokenizer.json')
         
         self.model_path = model_path
         self.tokenizer_path = tokenizer_path
