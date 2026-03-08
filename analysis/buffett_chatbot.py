@@ -305,9 +305,34 @@ class BuffettChatbot:
             model_path = os.path.join('checkpoints_v4', 'best_model.pt')
         if tokenizer_path is None:
             tokenizer_path = os.path.join('checkpoints_v4', 'tokenizer.json')
+
+# Download from Google Drive if not present (for Streamlit Cloud)
+        if not os.path.exists(model_path):
+            st.info("📥 Downloading transformer model from cloud storage... (217 MB, ~2 minutes)")
+            import gdown
         
-        self.model_path = model_path
-        self.tokenizer_path = tokenizer_path
+            MODEL_DRIVE_ID = '1fkq1eEou2cD5cnWyQNzS1X0lV9P8uHwl'  
+            TOKENIZER_DRIVE_ID = '1NmfkYP0p1Bi_nlbKRAWkZuCfprX1QcTv' 
+    
+    # Create directory
+            os.makedirs('checkpoints_v4', exist_ok=True)
+    
+            gdown.download(
+                f'https://drive.google.com/uc?id={MODEL_DRIVE_ID}',
+                model_path,
+                quiet=False
+            )
+    
+            gdown.download(
+                f'https://drive.google.com/uc?id={TOKENIZER_DRIVE_ID}',
+                tokenizer_path,
+                quiet=False
+            )
+    
+            st.success("Model downloaded successfully!")
+
+self.model_path = model_path
+self.tokenizer_path = tokenizer_path
     
     def load_model(self):
         """Load the trained model and tokenizer"""
