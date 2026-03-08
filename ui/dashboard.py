@@ -256,7 +256,7 @@ with st.sidebar:
     st.markdown(f"Llama 3.1 (Groq): {'✅ Loaded' if st.session_state.llama_loaded else '❌ Failed'}")
 
     st.markdown("---")
-    st.caption("Built with ❤️ | Handcoded Transformer + Llama 3.1")
+    st.caption("Handcoded Transformer + Llama 3.1")
 
 
 # MAIN TABS
