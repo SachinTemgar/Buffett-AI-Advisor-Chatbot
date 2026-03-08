@@ -28,13 +28,14 @@ st.markdown("""
         </p>
     </div>
     """, unsafe_allow_html=True)
+
 # CSS STYLING
 st.markdown("""
 <style>
     .block-container { padding-top: 3rem; padding-bottom: 2rem; }
     h1, h2, h3 { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-weight: 600; }
 
-    /* --- Fix Tab Bar --- */
+    /* Fix Tab Bar */
     [data-baseweb="tab-list"] {
         gap: 8px;
         overflow-x: auto;
@@ -45,7 +46,7 @@ st.markdown("""
         padding: 8px 16px;
     }
 
-    /* --- Metric Cards (Stock Analysis) --- */
+    /* Metric Cards (Stock Analysis) */
     .metric-card {
         background-color: #ffffff; border-radius: 8px; padding: 16px;
         margin-bottom: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.05);
@@ -59,7 +60,7 @@ st.markdown("""
     .metric-value { font-size: 1.25rem; font-weight: 800; color: #0F172A; }
     .metric-target { font-size: 0.85rem; color: #94A3B8; text-transform: uppercase; }
 
-    /* --- Verdict --- */
+    /* Verdict */
     .verdict-container {
         padding: 20px; border-radius: 12px; color: white;
         text-align: center; margin-bottom: 25px;
@@ -70,7 +71,7 @@ st.markdown("""
     .v-title { font-size: 1.8rem; font-weight: 800; }
     .v-desc { font-size: 1rem; opacity: 0.9; }
 
-    /* --- Chat Bubbles --- */
+    /* Chat Bubbles */
     .chat-container {
         max-height: 500px; overflow-y: auto; padding: 10px;
         border: 1px solid #e2e8f0; border-radius: 12px;
@@ -100,7 +101,7 @@ st.markdown("""
         font-size: 0.7rem; opacity: 0.5; margin-top: 4px;
     }
 
-    /* --- Model Info Cards --- */
+    /* Model Info Cards */
     .info-card {
         background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
         border-radius: 12px; padding: 24px; color: #e5e7eb; margin: 10px 0;
@@ -118,7 +119,7 @@ st.markdown("""
     .tag-blue { background: rgba(59,130,246,0.2); color: #3b82f6; }
     .tag-red { background: rgba(239,68,68,0.2); color: #ef4444; }
 
-    /* --- Comparison Table --- */
+    /* Comparison Table */
     .cmp-table {
         width: 100%; border-collapse: separate; border-spacing: 0;
         border-radius: 12px; overflow: hidden; margin: 20px 0;
@@ -135,7 +136,7 @@ st.markdown("""
     .cmp-table tr:last-child td { border-bottom: none; }
     .cmp-table .label-col { font-weight: 700; color: #1e293b; background: #f1f5f9 !important; width: 200px; }
 
-    /* --- Model Cards --- */
+    /* Model Cards */
     .model-card {
         background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
         border-radius: 12px; padding: 20px; margin: 10px 0; color: #e5e7eb;
@@ -300,7 +301,7 @@ with stock_tab:
                 c1.metric("Market Cap", format_currency(company_info['market_cap']))
                 c2.metric("Sector", company_info['sector'])
                 industry = company_info['industry']
-                c3.metric("Industry", industry.split(' — ')[0] if ' — ' in industry else industry)
+                c3.metric("Industry", industry.split(' - ')[0] if ' - ' in industry else industry)
                 price = company_info['current_price']
                 c4.metric("Current Price", f"${price:,.2f}" if isinstance(price, (int, float)) else "N/A")
 
@@ -484,7 +485,7 @@ with info_tab:
         <div class="info-card info-card-custom">
             <h3>🎩 Custom Transformer</h3>
             <p style="font-size:0.9rem; opacity:0.8; margin-bottom:16px;">
-                A GPT-style transformer built <b>entirely from scratch</b> — every layer of code handwritten,
+                A GPT-style transformer built <b>entirely from scratch</b> - every layer of code handwritten,
                 from the multi-head attention mechanism to the BPE tokenizer.
             </p>
             <span class="tag tag-gold">18M Parameters</span>
@@ -535,7 +536,7 @@ with info_tab:
             <tr>
                 <td class="label-col">Parameters</td>
                 <td>~18 Million</td>
-                <td>~8 Billion (444× larger)</td>
+                <td>~8 Billion (444x larger)</td>
             </tr>
             <tr>
                 <td class="label-col">Built From</td>
@@ -544,7 +545,7 @@ with info_tab:
             </tr>
             <tr>
                 <td class="label-col">Training Data</td>
-                <td>Buffett's letters (1977–2023) + Q&A dataset (3× weighted)</td>
+                <td>Buffett's letters (1977-2023) + Q&A dataset (3x weighted)</td>
                 <td>15 trillion tokens from internet, books, code</td>
             </tr>
             <tr>
@@ -569,8 +570,8 @@ with info_tab:
             </tr>
             <tr>
                 <td class="label-col">Inference</td>
-                <td>Local CPU/GPU — no API needed</td>
-                <td>Cloud API via Groq — requires internet</td>
+                <td>Local CPU/GPU - no API needed</td>
+                <td>Cloud API via Groq - requires internet</td>
             </tr>
             <tr>
                 <td class="label-col">Response Quality</td>
@@ -584,12 +585,12 @@ with info_tab:
             </tr>
             <tr>
                 <td class="label-col">Cost</td>
-                <td>Free — runs locally</td>
+                <td>Free - runs locally</td>
                 <td>Free tier available, paid for heavy use</td>
             </tr>
             <tr>
                 <td class="label-col">Privacy</td>
-                <td>100% private — data stays local</td>
+                <td>100% private - data stays local</td>
                 <td>Data sent to Groq servers</td>
             </tr>
         </tbody>
@@ -607,14 +608,14 @@ with info_tab:
         st.markdown('''
         Our model is a **decoder-only transformer** built entirely from scratch using PyTorch.
 
-        **Multi-Head Self-Attention** — Fused QKV projection, 8 heads, scaled dot-product
+        **Multi-Head Self-Attention** - Fused QKV projection, 8 heads, scaled dot-product
         attention with causal masking.
 
-        **Feed-Forward Network** — Two linear layers with GELU activation (384 → 1536 → 384).
+        **Feed-Forward Network** - Two linear layers with GELU activation (384 -> 1536 -> 384).
 
-        **Positional Encoding** — Learned embeddings up to 256 tokens.
+        **Positional Encoding** - Learned embeddings up to 256 tokens.
 
-        **BPE Tokenizer** — Custom 5,000-vocab tokenizer trained on Buffett's writing,
+        **BPE Tokenizer** - Custom 5,000-vocab tokenizer trained on Buffett's writing,
         eliminating the UNK token problem.
         ''')
         st.markdown("**Generation Techniques:**")
@@ -631,13 +632,13 @@ with info_tab:
         st.markdown('''
         Meta's **state-of-the-art LLM** representing the cutting edge of open-source AI.
 
-        **Grouped-Query Attention (GQA)** — 32 query heads, 8 KV heads for efficiency.
+        **Grouped-Query Attention (GQA)** - 32 query heads, 8 KV heads for efficiency.
 
-        **RoPE Positional Encoding** — Rotary embeddings scaling to 128K context.
+        **RoPE Positional Encoding** - Rotary embeddings scaling to 128K context.
 
-        **SwiGLU Activation** — Advanced activation for better gradient flow.
+        **SwiGLU Activation** - Advanced activation for better gradient flow.
 
-        **RMSNorm** — Pre-normalization for stable training at scale.
+        **RMSNorm** - Pre-normalization for stable training at scale.
         ''')
         st.markdown("**How We Use It:**")
         st.markdown('''
@@ -665,7 +666,7 @@ with info_tab:
     st.markdown('''
     **Training Data:**
     - Buffett's annual shareholder letters from **1977 to 2023**
-    - Curated Q&A dataset (**3× weighted** for emphasis)
+    - Curated Q&A dataset (**3x weighted** for emphasis)
     - Custom BPE tokenizer (5,000 merge operations)
     - Overlapping sequences with 50% stride
     ''')
@@ -678,17 +679,17 @@ with info_tab:
     <div class="info-card" style="border-top: 4px solid #10b981;">
         <h3 style="color: #10b981;">Why Build a Custom Model?</h3>
         <p style="font-size: 0.95rem;">
-            The custom transformer isn't meant to <i>beat</i> Llama 3.1 — it's 444× smaller! The purpose is to demonstrate
+            The custom transformer isn't meant to <i>beat</i> Llama 3.1 - it's 444x smaller! The purpose is to demonstrate
             <b>deep understanding of transformer architecture</b> by building every component from scratch: attention mechanisms,
             positional encodings, tokenization, training loops, and generation strategies.
         </p>
         <p style="font-size: 0.95rem;">
             Despite its small size, the model successfully learned Buffett's vocabulary, writing patterns, and key investment
-            concepts — proving that even a modest transformer can capture domain-specific knowledge when trained on focused data.
+            concepts - proving that even a modest transformer can capture domain-specific knowledge when trained on focused data.
         </p>
         <p style="font-size: 0.95rem;">
             Meanwhile, Llama 3.1 demonstrates how <b>prompt engineering</b> can leverage a general-purpose LLM to create
-            convincing domain-specific responses — a fundamentally different but equally valid approach.
+            convincing domain-specific responses - a fundamentally different but equally valid approach.
         </p>
     </div>
     ''', unsafe_allow_html=True)
