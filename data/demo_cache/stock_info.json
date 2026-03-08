@@ -1,0 +1,62 @@
+{
+  "AAPL": {
+    "ticker": "AAPL",
+    "name": "Apple Inc.",
+    "sector": "Technology",
+    "market_cap": 3784127807488
+  },
+  "MSFT": {
+    "ticker": "MSFT",
+    "name": "Microsoft Corporation",
+    "sector": "Technology",
+    "market_cap": 3039545262080
+  },
+  "GOOGL": {
+    "ticker": "GOOGL",
+    "name": "Alphabet Inc.",
+    "sector": "Communication Services",
+    "market_cap": 3611196391424
+  },
+  "KO": {
+    "ticker": "KO",
+    "name": "The Coca-Cola Company",
+    "sector": "Consumer Defensive",
+    "market_cap": 331395956736
+  },
+  "JNJ": {
+    "ticker": "JNJ",
+    "name": "Johnson & Johnson",
+    "sector": "Healthcare",
+    "market_cap": 579339681792
+  },
+  "PG": {
+    "ticker": "PG",
+    "name": "The Procter & Gamble Company",
+    "sector": "Consumer Defensive",
+    "market_cap": 359568769024
+  },
+  "BRK.B": {
+    "ticker": "BRK.B",
+    "name": "BRK.B",
+    "sector": "N/A",
+    "market_cap": 0
+  },
+  "JPM": {
+    "ticker": "JPM",
+    "name": "JPMorgan Chase & Co.",
+    "sector": "Financial Services",
+    "market_cap": 780736987136
+  },
+  "V": {
+    "ticker": "V",
+    "name": "Visa Inc.",
+    "sector": "Financial Services",
+    "market_cap": 611882631168
+  },
+  "WMT": {
+    "ticker": "WMT",
+    "name": "Walmart Inc.",
+    "sector": "Consumer Defensive",
+    "market_cap": 987039006720
+  }
+}
